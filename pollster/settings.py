@@ -71,7 +71,7 @@ DATABASES = {
     }
 }
 
-
+AUTH_USER_MODEL = 'polls.AdvUser' 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -112,3 +112,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+SERVER_EMAIL = 'v.erikoinen@yandex.ru'
+DEFAULT_FROM_EMAIL = 'v.erikoinen@yandex.ru'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'v.erikoinen@yandex.ru'
+EMAIL_HOST_PASSWORD = 'jeboflyciimopzwm'
+EMAIL_PORT = 465
