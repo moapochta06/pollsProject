@@ -1,5 +1,33 @@
-<nav class = "navbar navbar-dark bg-primary mb-4" >
-    <div class = "container" >
-         <a class = "navbar-brand" href = "/" > Pollster </a>
-     </div>
- </nav>
+<nav class="navbar navbar-dark bg-primary mb-4 navbar-expand-lg">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="/">Pollster</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="ml-auto d-flex">
+                {% if user.is_authenticated %}
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" 
+                       data-toggle="dropdown" aria-haspopup="true" 
+                       aria-expanded="false">Меню</a> 
+                    <div class="dropdown-menu" style="left: auto !important; right: 0 !important;">
+                        <a class="dropdown-item" href="{% url 'polls:profile' %}">Посмотреть профиль</a>
+                        <a class="dropdown-item" href="{% url 'polls:index' %}">Посмотреть опросы</a>
+                        <a class="dropdown-item" href="#">Создать опрос</a>
+                        <a class="dropdown-item" href="#">Изменить личные данные</a>
+                        <form method="post" action="{% url 'polls:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Выйти</button>
+                        </form>
+                        <a class="dropdown-item" href="#">Удалить</a>
+                    </div>
+                </div>
+                {% else %}
+                <a class="p-2 text-white" href="#">Регистрация</a> 
+                <a class="p-2 text-white" href="{% url 'polls:login' %}">Вход</a> 
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

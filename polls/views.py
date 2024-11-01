@@ -6,13 +6,27 @@ from django.urls import reverse
 from django.contrib.auth.views import LoginView 
 from django.urls import reverse_lazy
 from .models import Question, Choice
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.views import LogoutView
+from django import forms
+from .models import AdvUser
 
 
+def base(request): 
+    return render(request, 'base.html')
 
-# Get questions and display them
 
 class BBLoginView(LoginView): 
     template_name = 'user/login.html' 
+
+    
+@login_required 
+def profile(request): 
+        return render(request, 'user/profile.html')
+
+class BBLogoutView(LoginRequiredMixin, LogoutView): 
+   template_name = 'user/logout.html' 
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
