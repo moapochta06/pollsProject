@@ -5,6 +5,7 @@ from django.db import models
 class AdvUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Прошел активацию?')
     send_message = models.BooleanField(default=True, verbose_name='Оповещать при новых комментариях?')
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name='Аватар')
 
     class Meta(AbstractUser.Meta):
         pass

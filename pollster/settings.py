@@ -71,6 +71,12 @@ DATABASES = {
     }
 }
 
+# Основной url для управления медиафайлами
+MEDIA_URL = '/media/'
+
+# Путь хранения картинок
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 AUTH_USER_MODEL = 'polls.AdvUser' 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

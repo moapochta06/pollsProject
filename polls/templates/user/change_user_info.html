@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block title %} Правка личных данных {% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Правка личных данных пользователя {{ user.username }}</h2>
+<form method="post" enctype="multipart/form-data">
+   {% csrf_token %}
+   {% bootstrap_form form layout='horizontal' %}
+   <input type="hidden"  name="next" value="{{ next }}" />
+   
+   <div class="avatar-container">
+       {% if user.avatar %}
+           <img id="avatar-preview" src="{{ user.avatar.url }}" class="my-3 mb-5" alt="Аватар" style="width: 200px; height: 200px; border-radius: 20px; object-fit: cover;">
+       {% else %}
+           <div id="avatar-preview" style="width: 200px; height: 200px; border-radius: 20px; background-color: gray;"></div> <!-- Серый круг как аватар -->
+       {% endif %}
+   </div>   
+   {% buttons submit='Сохранить' %} {% endbuttons %}
+</form>
+
+<script>
+    document.getElementById('id_avatar').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Получаем первый выбранный файл
+        const reader = new FileReader(); // Создаем объект FileReader
+
+        reader.onload = function(e) {
+            const avatarPreview = document.getElementById('avatar-preview');
+            avatarPreview.src = e.target.result; // Устанавливаем новый источник изображения
+        };
+
+        if (file) {
+            reader.readAsDataURL(file); // Читаем файл как Data URL
+        }
+    });
+</script>
+{% endblock %}

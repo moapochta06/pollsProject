@@ -8,9 +8,16 @@ from django.urls import reverse_lazy
 from .models import Question, Choice
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LogoutView
+from django.views.generic import UpdateView, CreateView, TemplateView, DeleteView
+from django.contrib.auth import logout
+from django.contrib import messages
 from django import forms
 from .models import AdvUser
+from .forms import ChangeUserInfoForm
+
+from django.shortcuts import render, redirect
 
 
 def base(request): 
@@ -20,13 +27,57 @@ def base(request):
 class BBLoginView(LoginView): 
     template_name = 'user/login.html' 
 
-    
+
+class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    model = AdvUser
+    template_name = 'user/change_user_info.html'
+    form_class = ChangeUserInfoForm
+    success_url = reverse_lazy('polls:profile')
+    success_message = 'Личные данные пользователя изменены'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+
 @login_required 
 def profile(request): 
         return render(request, 'user/profile.html')
 
+
+
+class DeleteUserView(LoginRequiredMixin, DeleteView):
+    model = AdvUser
+    template_name = 'main/delete_user.html'
+    success_url = reverse_lazy('polls:base')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        messages.add_message(request, messages.SUCCESS, 'Пользователь удален')
+        return super().post(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
+    
+
 class BBLogoutView(LoginRequiredMixin, LogoutView): 
    template_name = 'user/logout.html' 
+
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]

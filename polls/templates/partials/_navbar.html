@@ -5,9 +5,14 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="ml-auto d-flex">
+            <div class="ml-auto d-flex align-items-center"> <!-- Добавлено align-items-center -->
                 {% if user.is_authenticated %}
-                <div class="nav-item dropdown">
+                <div class="nav-item dropdown d-flex align-items-center"> <!-- Flexbox для вертикального центрирования -->
+                    {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="Аватар"  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background-color: gray;"></div> <!-- Серый круг как аватар по умолчанию -->
+                    {% endif %}
                     <a class="nav-link dropdown-toggle text-white" href="#" 
                        data-toggle="dropdown" aria-haspopup="true" 
                        aria-expanded="false">Меню</a> 
@@ -15,16 +20,16 @@
                         <a class="dropdown-item" href="{% url 'polls:profile' %}">Посмотреть профиль</a>
                         <a class="dropdown-item" href="{% url 'polls:index' %}">Посмотреть опросы</a>
                         <a class="dropdown-item" href="#">Создать опрос</a>
-                        <a class="dropdown-item" href="#">Изменить личные данные</a>
+                        <a class="dropdown-item" href="{% url 'polls:profile_change' %}">Изменить личные данные</a>
                         <form method="post" action="{% url 'polls:logout' %}">
                             {% csrf_token %}
                             <button type="submit" class="dropdown-item">Выйти</button>
                         </form>
-                        <a class="dropdown-item" href="#">Удалить</a>
+                        <a class="dropdown-item" href="{% url 'polls:profile_delete' %}">Удалить</a>
                     </div>
                 </div>
                 {% else %}
-                <a class="p-2 text-white" href="#">Регистрация</a> 
+                <a class="p-2 text-white" href="">Регистрация</a> 
                 <a class="p-2 text-white" href="{% url 'polls:login' %}">Вход</a> 
                 {% endif %}
             </div>
