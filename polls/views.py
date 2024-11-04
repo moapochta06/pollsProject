@@ -16,12 +16,51 @@ from django.contrib import messages
 from django import forms
 from .models import AdvUser
 from .forms import ChangeUserInfoForm
-
-from django.shortcuts import render, redirect
-
+from django.core.signing import BadSignature
+from django.views.generic import CreateView
+from django.views.generic import TemplateView
+from .forms import RegisterUserForm
+from .utilities import signer
 
 def base(request): 
     return render(request, 'base.html')
+
+
+from django.views.generic import CreateView, TemplateView
+from django.urls import reverse_lazy
+from .forms import RegisterUserForm  # Import your form here
+
+class RegisterUserView(CreateView):
+    model = AdvUser
+    template_name = 'user/register.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('polls:register_done')  # Adjusted success URL
+
+class RegisterDoneView(TemplateView):
+    template_name = 'user/register_done.html'
+
+
+
+from django.views.generic import TemplateView
+class RegisterDoneView(TemplateView):
+   template_name = 'user/register_done.html'
+
+
+
+def user_activate(request, sign):
+   try:
+       username = signer.unsign(sign)
+   except BadSignature:
+       return render(request, 'user/bad_signature.html')
+   user = get_object_or_404(AdvUser, username=username)
+   if user.is_activated:
+       template = 'user/user_is_activated.html'
+   else:
+       template = 'user/activation_done.html'
+       user.is_activated = True
+       user.is_active = True
+       user.save()
+   return render(request, template)
 
 
 class BBLoginView(LoginView): 

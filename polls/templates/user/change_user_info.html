@@ -15,7 +15,7 @@
        {% if user.avatar %}
            <img id="avatar-preview" src="{{ user.avatar.url }}" class="my-3 mb-5" alt="Аватар" style="width: 200px; height: 200px; border-radius: 20px; object-fit: cover;">
        {% else %}
-           <div id="avatar-preview" style="width: 200px; height: 200px; border-radius: 20px; background-color: gray;"></div> <!-- Серый круг как аватар -->
+           <div id="avatar-preview" class="my-3 mb-5"style="width: 200px; height: 200px; border-radius: 20px; background-color: #CDE2F8;"></div> <!-- Серый круг как аватар -->
        {% endif %}
    </div>   
    {% buttons submit='Сохранить' %} {% endbuttons %}

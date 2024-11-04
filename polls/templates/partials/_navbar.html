@@ -11,7 +11,7 @@
                     {% if user.avatar %}
                     <img src="{{ user.avatar.url }}" alt="Аватар"  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                     {% else %}
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background-color: gray;"></div> <!-- Серый круг как аватар по умолчанию -->
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #CDE2F8;"></div> <!-- Серый круг как аватар по умолчанию -->
                     {% endif %}
                     <a class="nav-link dropdown-toggle text-white" href="#" 
                        data-toggle="dropdown" aria-haspopup="true" 
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 {% else %}
-                <a class="p-2 text-white" href="">Регистрация</a> 
+                <a class="p-2 text-white" href="{% url 'polls:register' %}">Регистрация</a> 
                 <a class="p-2 text-white" href="{% url 'polls:login' %}">Вход</a> 
                 {% endif %}
             </div>
