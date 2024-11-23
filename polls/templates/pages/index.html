@@ -4,9 +4,29 @@
 <div class="card text-center">
     <div class="card-body">
         <h1>Добро пожаловать!</h1>
-        <p></p>
-        <a class="btn btn-dark" href="{% url 'polls:index' %}">
-         Смотреть доступные опросы</a>
+        <p>Выберите один из доступных опросов ниже:</p>
+        <a class="btn btn-dark mb-4" href="{% url 'polls:index' %}">
+            Смотреть доступные опросы
+        </a>
+        
+        {% if latest_question_list %}
+            <div class="question-list">
+                {% for question in latest_question_list %}
+                    <div class="question mb-4">
+                        <h3>
+                            <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                        </h3>
+                        {% if question.image %}
+                            <img src="{{ question.image.url }}" alt="Изображение вопроса" class="img-fluid" style="max-width: 100%; height: auto;">
+                        {% endif %}
+                        <p class="text-muted">Дата публикации: {{ question.pub_date|date:"d M Y H:i" }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Нет доступных опросов.</p>
+        {% endif %}
     </div>
 </div>
+
 {% endblock %}

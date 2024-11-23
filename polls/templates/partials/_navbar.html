@@ -19,7 +19,7 @@
                     <div class="dropdown-menu" style="left: auto !important; right: 0 !important;">
                         <a class="dropdown-item" href="{% url 'polls:profile' %}">Посмотреть профиль</a>
                         <a class="dropdown-item" href="{% url 'polls:index' %}">Посмотреть опросы</a>
-                        <a class="dropdown-item" href="#">Создать опрос</a>
+                        <a class="dropdown-item" href="{% url 'polls:create_poll' %}">Создать опрос</a>
                         <a class="dropdown-item" href="{% url 'polls:profile_change' %}">Изменить личные данные</a>
                         <form method="post" action="{% url 'polls:logout' %}">
                             {% csrf_token %}
@@ -34,5 +34,5 @@
                 {% endif %}
             </div>
         </div>
-    </div>
+    </div>  
 </nav>
